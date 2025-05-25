@@ -1,20 +1,38 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { AppProvider } from './src/context/AppContext';
+import { SwarmScreen } from './src/screens/SwarmScreen';
+import { TreatyScreen } from './src/screens/TreatyScreen';
+
+export type RootStackParamList = {
+  Swarm: undefined;
+  Treaty: { treatyId: string };
+};
+
+const Stack = createStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <AppProvider>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Swarm">
+          <Stack.Screen 
+            name="Swarm" 
+            component={SwarmScreen}
+            options={{
+              title: 'Treaties',
+            }}
+          />
+          <Stack.Screen 
+            name="Treaty" 
+            component={TreatyScreen}
+            options={{
+              title: 'Treaty',
+            }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </AppProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
